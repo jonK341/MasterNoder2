@@ -12,6 +12,7 @@ gen_context
 *.exe
 *.so
 *.a
+!.gitignore
 
 Makefile
 configure
