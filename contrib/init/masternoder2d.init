@@ -1,0 +1,67 @@
+#!/bin/bash
+#
+#  masternoder2d The MasterNoder2 core server.
+#
+#
+# chkconfig: 345 80 20
+# description: masternoder2d
+# processname: masternoder2d
+#
+
+# Source function library.
+. /etc/init.d/functions
+
+# you can override defaults in /etc/sysconfig/masternoder2d, see below
+if [ -f /etc/sysconfig/masternoder2d ]; then
+        . /etc/sysconfig/masternoder2d
+fi
+
+RETVAL=0
+
+prog=masternoder2d
+# you can override the lockfile via BITCOIND_LOCKFILE in /etc/sysconfig/masternoder2d
+lockfile=${BITCOIND_LOCKFILE-/var/lock/subsys/masternoder2d}
+
+# masternoder2d defaults to /usr/bin/masternoder2d, override with BITCOIND_BIN
+bitcoind=${BITCOIND_BIN-/usr/bin/masternoder2d}
+
+# masternoder2d opts default to -disablewallet, override with BITCOIND_OPTS
+bitcoind_opts=${BITCOIND_OPTS}
+
+start() {
+    echo -n $"Starting $prog: "
+    daemon $DAEMONOPTS $bitcoind $bitcoind_opts
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && touch $lockfile
+    return $RETVAL
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc $prog
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && rm -f $lockfile
+    return $RETVAL
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status $prog
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: service $prog {start|stop|status|restart}"
+        exit 1
+        ;;
+esac

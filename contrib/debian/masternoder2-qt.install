@@ -1,0 +1,6 @@
+usr/local/bin/masternoder2-qt usr/bin
+share/pixmaps/masternoder232.xpm usr/share/pixmaps
+share/pixmaps/masternoder216.xpm usr/share/pixmaps
+share/pixmaps/masternoder2128.png usr/share/pixmaps
+debian/masternoder2-qt.desktop usr/share/applications
+debian/masternoder2-qt.protocol usr/share/kde4/services/

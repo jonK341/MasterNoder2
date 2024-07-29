@@ -1,0 +1,11 @@
+[Protocol]
+exec=masternoder2-qt '%u'
+protocol=masternoder2
+input=none
+output=none
+helper=true
+listing=
+reading=false
+writing=false
+makedir=false
+deleting=false

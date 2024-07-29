@@ -1,0 +1,3 @@
+usr/local/bin/masternoder2d usr/bin
+usr/local/bin/masternoder2-cli usr/bin
+debian/examples/masternoder2.conf etc/masternoder2

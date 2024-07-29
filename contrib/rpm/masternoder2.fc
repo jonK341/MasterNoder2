@@ -1,0 +1,8 @@
+/usr/bin/masternoder2-cli		--	gen_context(system_u:object_r:masternoder2_exec_t,s0)
+/usr/sbin/masternoder2d		--	gen_context(system_u:object_r:masternoder2_exec_t,s0)
+/usr/lib(64)?/masternoder2/masternoder2d		--	gen_context(system_u:object_r:masternoder2_exec_t,s0)
+
+/etc/masternoder2(/.*)?		gen_context(system_u:object_r:masternoder2_conf_t,s0)
+/var/lib/masternoder2(/.*)?		gen_context(system_u:object_r:masternoder2_var_lib_t,s0)
+
+(/var)?/run/masternoder2d(/.*)?   gen_context(system_u:object_r:masternoder2_var_run_t,s0)
