@@ -179,8 +179,18 @@ public:
         hashGenesisBlock = genesis.GetHash();
         assert(hashGenesisBlock == uint256("0x00000742f63362c180e6c0c4e2a98ab785e98e85608fee8d45ca10044e1e9993"));
         assert(genesis.hashMerkleRoot == uint256("0x662873dc863a68935620243d66af03e25e334b38460570d76c3bc6429caa8080"));
-
-        vSeeds.push_back(CDNSSeedData("walletbuilders.com", "node3.walletbuilders.com"));
+        
+        vSeeds.push_back(CDNSSeedData("34.42.67.197", "34.42.67.197"));
+        vSeeds.push_back(CDNSSeedData("seed01.urcoin.cc", "seed01.urcoin.cc"));
+        vSeeds.push_back(CDNSSeedData("seed02.urcoin.cc", "seed02.urcoin.cc"));
+        vSeeds.push_back(CDNSSeedData("official node", "34.42.67.197"));
+        vSeeds.push_back(CDNSSeedData("explorer", "192.46.237.230"));
+        vSeeds.push_back(CDNSSeedData("official node 2", "34.44.119.78"));
+        vSeeds.push_back(CDNSSeedData("community node 1", "34.172.145.22"));
+        vSeeds.push_back(CDNSSeedData("community node 2", "167.86.110.23"));
+        vSeeds.push_back(CDNSSeedData("community node 3", "34.71.177.102"));
+        vSeeds.push_back(CDNSSeedData("community node 4", "35.224.183.152"));
+        vSeeds.push_back(CDNSSeedData("community node 5", "35.238.207.237"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 43);
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 44);
