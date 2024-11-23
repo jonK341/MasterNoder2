@@ -2,6 +2,7 @@
 // Copyright (c) 2009-2014 The Bitcoin developers
 // Copyright (c) 2014-2015 The Dash developers
 // Copyright (c) 2015-2019 The PIVX developers
+// Copyright (c) 2024 The MN2 developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -505,15 +506,17 @@ void ReadConfigFile(map<string, string>& mapSettingsRet,
                           "server=1\n"
                           "listen=1\n"
                           "daemon=1\n"
-                          "port=26622\n"
-                          "rpcport=26621\n"
+                          "port=17646\n"
+                          "rpcport=17645\n"
                           "banscore=999999\n"
                           "settxfee=0.0001\n"
                           "rpcbind=127.0.0.1\n"
                           "maxconnections=20\n"
                           "rpcallowip=127.0.0.1\n"
+                          "mempoolexpiry=72\n"
                           "\n"
                           "# ADDNODES:\n"
+                          "addnode=85.10.148.5:17646\n"
                           "addnode=34.42.67.197:17646\n"
                           "addnode=34.44.119.78:17646\n"
                           "addnode=34.172.145.22:17646\n"
