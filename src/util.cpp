@@ -514,6 +514,7 @@ void ReadConfigFile(map<string, string>& mapSettingsRet,
                           "maxconnections=20\n"
                           "rpcallowip=127.0.0.1\n"
                           "mempoolexpiry=72\n"
+                          "enablezeromint=0\n"
                           "\n"
                           "# ADDNODES:\n"
                           "addnode=85.10.148.5:17646\n"
