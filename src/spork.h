@@ -79,7 +79,7 @@ using namespace boost;
 #define SPORK_23_QUORUM_POSE_DEFAULT 1703122560                       //2024-12-21 Effective now
 #define SPORK_24_ENABLE_SIPHASH 1703122560                            //2024-12-21 Effective now
 #define SPORK_25_ENABLE_MASTERNODER2_SERVER 4070908800                //OFF
-#define SPORK_28_ENABLE_TIMELOCK _DEFAULT 1734658560                  //2025-01-01
+#define SPORK_28_ENABLE_TIMELOCK_DEFAULT 1734658560                  //2025-01-01
 #define SPORK_29_ENABLE_ANONYMITY_DEFAULT 1734658560                  //2025-01-01
 #define SPORK_101_SERVICES_ENFORCEMENT_DEFAULT 1703122560             //2024-12-21 Effective now
 #define SPORK_104_MAX_BLOCK_TIME_DEFAULT 600                          //10 mins max Blocktime
