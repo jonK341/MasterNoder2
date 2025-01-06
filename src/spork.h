@@ -77,8 +77,8 @@ using namespace boost;
 #define SPORK_21_QUORUM_ALL_CONNECTED_DEFAULT 1703122560              //2024-12-21 Effective now
 #define SPORK_22_ENABLE_TX_COMPRESSION_DEFAULT 1703122560             //2024-12-21 Effective now
 #define SPORK_23_QUORUM_POSE_DEFAULT 1703122560                       //2024-12-21 Effective now
-#define SPORK_24_ENABLE_SIPHASH 1703122560                            //2024-12-21 Effective now
-#define SPORK_25_ENABLE_MASTERNODER2_SERVER 4070908800                //OFF
+#define SPORK_24_ENABLE_SIPHASH_DEFAULT 1703122560                            //2024-12-21 Effective now
+#define SPORK_25_ENABLE_MASTERNODER2_SERVER_DEFAULT 4070908800                //OFF
 #define SPORK_28_ENABLE_TIMELOCK_DEFAULT 1734658560                  //2025-01-01
 #define SPORK_29_ENABLE_ANONYMITY_DEFAULT 1734658560                  //2025-01-01
 #define SPORK_101_SERVICES_ENFORCEMENT_DEFAULT 1703122560             //2024-12-21 Effective now
@@ -86,7 +86,7 @@ using namespace boost;
 #define SPORK_106_STAKING_SKIP_MN_SYNC_DEFAULT 1703122560             //2024-12-21 Effective now
 #define SPORK_109_FORCE_ENABLED_VOTED_MASTERNODE_DEFAULT 1703122560   //2024-12-21 Effective now
 #define SPORK_110_FORCE_ENABLED_MASTERNODE_PAYMENT_DEFAULT 4070908800 //OFF
-#define SPORK_111_ALLOW_DUPLICATE_MN_IPS 1703122560                   //2024-12-21 Effective now
+#define SPORK_111_ALLOW_DUPLICATE_MN_IPS_DEFAULT 1703122560                   //2024-12-21 Effective now
 
 class CSporkMessage;
 class CSporkManager;
