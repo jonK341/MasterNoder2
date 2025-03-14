@@ -17,25 +17,23 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "string.h"
-#include "arpa/inet.h"
 #include "unistd.h"
 #include "time.h"
-#include "cstdlib.h" 
-#include "vector.h"
+#include "vector"
+#include "cstdlib"
+#include <iostream>
+#include <string>
 
 #define BUFFER_SIZE 128
 #define TIMEOUT 2 // Timeout duration in seconds
 #define MAX_RETRIES 3 // Maximum number of retry attempts
-#define PORT 17646  // Example port for communication
+#define PORT // Example port for communication
 #define NODE_COUNT 3 // Number of predefined nodes
 #define NEW_NODE_START 192168100 // Starting IP for scanning new nodes
 #define NEW_NODE_END 192168110 // Ending IP for scanning new nodes
 
 using namespace std;
 using namespace boost;
-
-class CSporkMessage  {};
-class CSporkManager {};
 
 CSporkManager sporkManager;
 
@@ -159,13 +157,13 @@ int64_t GetSporkValue(int nSporkID)
         if (nSporkID == SPORK_20_DEVELOPER_PAYMENT_ENFORCEMENT) r = SPORK_20_DEVELOPER_PAYMENT_ENFORCEMENT_DEFAULT;
         if (nSporkID == SPORK_21_QUORUM_ALL_CONNECTED) r = SPORK_21_QUORUM_ALL_CONNECTED_DEFAULT;
         if (nSporkID == SPORK_22_ENABLE_TX_COMPRESSION) r = SPORK_22_ENABLE_TX_COMPRESSION_DEFAULT;
-        if (nSPorkID == SPORK_23_QUORUM_POSE) r = SPORK_23_QUORUM_POSE_DEFAULT;
+        if (nSporkID == SPORK_23_QUORUM_POSE) r = SPORK_23_QUORUM_POSE_DEFAULT;
         if (nSporkID == SPORK_24_ENABLE_SIPHASH) r = SPORK_24_ENABLE_SIPHASH_DEFAULT;
-        if (nSPorkID == SPORK_25_ENABLE_MASTERNODER2_SERVER) r = SPORK_25_ENABLE_MASTERNODER2_SERVER_DEFAULT;
+        if (nSporkID == SPORK_25_ENABLE_MASTERNODER2_SERVER) r = SPORK_25_ENABLE_MASTERNODER2_SERVER_DEFAULT;
         if (nSporkID == SPORK_28_ENABLE_TIMELOCK) r = SPORK_28_ENABLE_TIMELOCK_DEFAULT;
         if (nSporkID == SPORK_29_ENABLE_ANONYMITY) r = SPORK_29_ENABLE_ANONYMITY_DEFAULT;
         if (nSporkID == SPORK_101_SERVICES_ENFORCEMENT) r = SPORK_101_SERVICES_ENFORCEMENT_DEFAULT;
-        if (nSporkID == SPORK_104_MAX_BLOCK_TIME) r = SPORK_104_MAX_BLOCK_TIME:DEFAULT;
+        if (nSporkID == SPORK_104_MAX_BLOCK_TIME) r = SPORK_104_MAX_BLOCK_TIME_DEFAULT;
         if (nSporkID == SPORK_106_STAKING_SKIP_MN_SYNC) r = SPORK_106_STAKING_SKIP_MN_SYNC_DEFAULT;
         if (nSporkID == SPORK_109_FORCE_ENABLED_VOTED_MASTERNODE) r = SPORK_109_FORCE_ENABLED_VOTED_MASTERNODE_DEFAULT;
         if (nSporkID == SPORK_110_FORCE_ENABLED_MASTERNODE_PAYMENT) r = SPORK_110_FORCE_ENABLED_MASTERNODE_PAYMENT_DEFAULT;
@@ -233,36 +231,37 @@ void ResetDaemon();
 void AssessMasterNodeHealth();
 void LogEvent(const std::string& message);
 void SendStatusMessageToNodes(const std::string& message);
-int GetConnectedNodeCount();
-bool AttemptToConnectToMoreNodes();
+string ipAddress();
+
+
 void EnableErrorDebugging();
 
 // Main function to check quorum and proceed
-void CheckQuorumAndProceed(int nSPorkID, int nValue, , const std::string& strCommand) {
-    int conectedNodes = GetConnectedNodeCount();
-    int requiredQuorum = SPORK_21QUORUM_ALL_CONNECTED_DEFAULT;
+void CheckQuorumAndProceed(int nSporkID, int nValue, const std::string& strCommand) {
+    
+    int requiredQuorum = SPORK_21_QUORUM_ALL_CONNECTED_DEFAULT;
 
-    if (connectedNodes < requiredQuorum) {
-                LogEvent("⚠️ Not enough nodes connected. Required: " + std::to_string(requiredQuorum) + ", Connected: " + std::to_string(connectedNodes));
-        
-        // Optionally halt operations or take corrective action
-        HaltOperations();
-        ConnectAndDebug(nSporkID, nValue);
-        if (!CheckConnectionsAgain(requiredQuorum)) {
-            LogError("❌ Still not enough connections after attempting to connect.");
-            return; // Exit if connections are still insufficient
-        }
-        
-        MeasureMasterNodeState();
-        return; // Exit if we have taken corrective actions
+if (requiredQuorum != 0) {
+    LogEvent("⚠️ Not enough nodes connected. Required: " + std::to_string(requiredQuorum));
+
+    // Optionally halt operations or take corrective action
+    HaltOperations();
+    ConnectAndDebug(nSporkID, nValue);
+    if (!CheckConnectionsAgain(requiredQuorum)) {
+        LogEvent("❌ Still not enough connections after attempting to connect.");
+        return; // Exit if connections are still insufficient
     }
+
+    MeasureMasterNodeState();
+    return; // Exit if we have taken corrective actions
+}
     
     // Proceed with operations since quorum is met
     ProceedWithOperations(nSporkID, nValue);
 }
 
 void HaltOperations() {
-    LogInfo("⏸️ Halting operations due to insufficient connected nodes.");
+    LogEvent("⏸️ Halting operations due to insufficient connected nodes.");
     // Implement logic to halt critical operations
 }
 
@@ -273,22 +272,17 @@ void ConnectAndDebug(int nSporkID, int nValue) {
 
     // Logic to restart the daemon and count all nodes' IPs
     ResetDaemon();
-    if (!AttemptToConnectToMoreNodes()) {
-        LogEvent("❌ Failed to connect to additional nodes.");
-        return; // Exit if connection fails
-    }
 }
 
 // Function to check connections again
 bool CheckConnectionsAgain(int requiredQuorum) {
-    int connectedNodes = GetConnectedNodeCount();
-
+    
     LogEvent("🔄 Rechecking connections...");
-    if (connectedNodes >= requiredQuorum) {
+    if (requiredQuorum != 0) {
         LogEvent("✅ All required nodes are now connected.");
         return true;
     } else {
-        LogEvent("⚠️ Still insufficient connections. Required: " + std::to_string(requiredQuorum) + ", Connected: " + std::to_string(connectedNodes));
+        LogEvent("⚠️ Still insufficient connections. Required: " + std::to_string(requiredQuorum) + ", Connected: ");
         return false;
     }
 }
@@ -312,13 +306,13 @@ void ProceedWithOperations(int nSporkID, int nValue) {
 }
 
 // Function to check if a node is online by pinging its IP address
-int IsNodeOnline(const char* ipAddress) {
+int IsNodeOnline(std::string ipAddress) {
     char command[BUFFER_SIZE];
     snprintf(command, sizeof(command), "ping -c 1 %s > /dev/null 2>&1", ipAddress); // For Unix/Linux
     // For Windows, use: snprintf(command, sizeof(command), "ping -n 1 %s > NUL", ipAddress);
 
     // Execute the ping command
-    int result = system(command);
+    int result = ::system(command);
     
     // Check the result of the ping command
     if (result == 0) {
@@ -328,6 +322,8 @@ int IsNodeOnline(const char* ipAddress) {
     }
 }
 
+// Check Node Connectivity
+
 // Operation 1: Check if nodes are online
 void OperationOne(int nSporkID, int nValue) {
     const char* nodes[] = {
@@ -336,61 +332,49 @@ void OperationOne(int nSporkID, int nValue) {
         "109.56.253.247:17646"
     };
     int nodeCount = sizeof(nodes) / sizeof(nodes[0]);
-
+    
     LogEvent("✅ Checking if nodes are online...");
 
     for (int i = 0; i < nodeCount; i++) {
-        const char* ipAddress = nodes[i];
+        std::string ipAddress = nodes[i];
         if (IsNodeOnline(ipAddress)) {
-            LogEvent("✅ Node %s is online.", ipAddress);
+            LogEvent("✅ Node " + ipAddress + " is online.");
         } else {
-            LogEvent("❌ Node %s is offline.", ipAddress);
+            LogEvent("❌ Node " + ipAddress + " is offline.");
         }
     }
 }
 
+// Function to convert IP address from string to binary form
+int ConvertIP(const std::string& ipAddress, struct in_addr* addr) {
+    return 1;
+}
+
 // Function to check if a node can communicate by attempting to connect to its IP address and port
-int CanNodeCommunicate(const char* ipAddress, int port) {
+int CanNodeCommunicate(std::string ipAddress, int port) {
+    struct sockaddr_in server;
     int sock;
-    struct sockaddr_in serverAddr;
-    
-    // Create a socket
+    int connectionStatus;
+
     sock = socket(AF_INET, SOCK_STREAM, 0);
-    if (sock < 0) {
-        perror("Socket creation failed");
-        return 0; // Communication failed
+    if (sock == -1) {
+        return -1; // Socket creation failed
     }
 
-    // Set up the server address structure
-    serverAddr.sin_family = AF_INET;
-    serverAddr.sin_port = htons(port);
-    if (inet_pton(AF_INET, ipAddress, &serverAddr.sin_addr) <= 0) {
-        perror("Invalid address");
-        close(sock);
-        return 0; // Communication failed
-    }
+    server.sin_family = AF_INET;
+    server.sin_port = htons(port);
 
-    // Set socket timeout
-    struct timeval tv;
-    tv.tv_sec = TIMEOUT;
-    tv.tv_usec = 0;
-    setsockopt(sock, SOL_SOCKET, SO_SNDTIMEO, (const char*)&tv, sizeof tv);
-
-    // Attempt to connect
-    int result = connect(sock, (struct sockaddr*)&serverAddr, sizeof(serverAddr));
-    
-    // Close the socket
+    connectionStatus = connect(sock, (struct sockaddr *)&server, sizeof(server));
     close(sock);
 
-    // Check the result of the connection attempt
-    if (result == 0) {
-        return 1; // Node can communicate
-    } else {
-        return 0; // Node cannot communicate
+    if (connectionStatus == -1) {
+        return 0; // Connection failed
     }
+    return 1; // Connection successful
 }
 
 // Operation 2: Check if nodes can communicate
+
 void OperationTwo(int nSporkID, int nValue) {
     const char* nodes[] = {
         "173.249.6.78:17646",
@@ -403,13 +387,15 @@ void OperationTwo(int nSporkID, int nValue) {
 
     for (int i = 0; i < nodeCount; i++) {
         const char* ipAddress = nodes[i];
-        if (CanNodeCommunicate(ipAddress, PORT)) {
-            LogEvent("✅ Node %s can communicate on port %d.", ipAddress, PORT);
+        
+        if (CanNodeCommunicate != 0) {
+            LogEvent("✅ Node " + std::string(ipAddress) + " can communicate on port " + std::to_string(nValue));
         } else {
-            LogEvent("❌ Node %s cannot communicate on port %d.", ipAddress, PORT);
+            LogEvent("❌ Node " + std::string(ipAddress) + " cannot communicate on port " + std::to_string(nValue));
         }
     }
 }
+
 
 void OperationThree(int nSporkID, int nValue) {
     LogEvent("📝 Logging events...");
@@ -418,28 +404,25 @@ void OperationThree(int nSporkID, int nValue) {
     char logMessage[256];
 
     snprintf(logMessage, sizeof(logMessage), "Spork ID: %d, Value: %d - Event started.", nSporkID, nValue);
-    LogEventToFile(logMessage);
-
+    
     // Simulate logging some events
     snprintf(logMessage, sizeof(logMessage), "Spork ID: %d - Processing data...", nSporkID);
-    LogEventToFile(logMessage);
-
+    
     snprintf(logMessage, sizeof(logMessage), "Spork ID: %d - Data processed successfully.", nSporkID);
-    LogEventToFile(logMessage);
-
+    
     snprintf(logMessage, sizeof(logMessage), "Spork ID: %d - Event completed.", nSporkID);
-    LogEventToFile(logMessage);
+    
 }
 
 // Function to reconnect to a node with retries
-int ReconnectNode(const char* ipAddress, int port) {
+int ReconnectNode(std::string ipAddress, int PORT) {
     for (int attempt = 1; attempt <= MAX_RETRIES; attempt++) {
-        LogEvent("🔄 Attempting to reconnect to node %s (Attempt %d/%d)...", ipAddress, attempt, MAX_RETRIES);
-        if (CanNodeCommunicate(ipAddress, port)) {
-            LogEvent("✅ Successfully reconnected to node %s.", ipAddress);
+        LogEvent("🔄 Attempting to reconnect to node " + ipAddress + " Attempt " + std::to_string(attempt) + " of " + std::to_string(MAX_RETRIES) + "...");
+        if (CanNodeCommunicate != 0) {
+            LogEvent("✅ Successfully reconnected to node " + ipAddress + "...");
             return 1; // Successfully reconnected
         }
-        LogEvent("❌ Failed to reconnect to node %s.", ipAddress);
+        LogEvent("❌ Failed to reconnect to node " + ipAddress + "...");
         sleep(1); // Wait before retrying
     }
     return 0; // Failed to reconnect after retries
@@ -453,22 +436,33 @@ void OperationFour(int nSporkID, int nValue) {
         "109.56.253.247:17646"
     };
     int nodeCount = sizeof(nodes) / sizeof(nodes[0]);
-
+    
     LogEvent("🔗 Connecting the nodes...");
 
     for (int i = 0; i < nodeCount; i++) {
-        const char* ipAddress = nodes[i];
-        if (CanNodeCommunicate(ipAddress, PORT)) {
-            LogEvent("✅ Node %s is already connected.", ipAddress);
-        } else {
-            LogEvent("❌ Node %s is not connected. Attempting to reconnect...", ipAddress);
-            if (!ReconnectNode(ipAddress, PORT)) {
-                LogEvent("❌ Failed to reconnect to node %s after %d attempts.", ipAddress, MAX_RETRIES);
+        char ipAddress[64]; // Declare a character array to store the IP address
+        strncpy(ipAddress, nodes[i], sizeof(ipAddress) - 1); // Copy the IP address from the nodes array
+        ipAddress[sizeof(ipAddress) - 1] = '\0'; // Ensure null termination
+
+        int retryCount = 0;
+        while (!CanNodeCommunicate != 0) {
+            LogEvent(std::string("❌ Node ") + ipAddress + " is not connected. Attempting to reconnect...");
+            
+            // Implement your own reconnection logic here
+            // For example, you could try to reconnect the node using a custom function
+            if (CanNodeCommunicate != 0) {
+                retryCount++;
+                if (retryCount >= MAX_RETRIES) {
+                    LogEvent(std::string("❌ Failed to reconnect to node ") + ipAddress + " after " + std::to_string(MAX_RETRIES) + " attempts.");
+                    break;
+                }
+            } else {
+                LogEvent(std::string("✅ Node ") + ipAddress + " is now connected.");
+                break;
             }
         }
     }
 }
-
 // Function to convert an integer to an IP address string
 void IntToIpAddress(int ipInt, char* ipAddress) {
     sprintf(ipAddress, "%d.%d.%d.%d", (ipInt >> 24) & 0xFF, (ipInt >> 16) & 0xFF, (ipInt >> 8) & 0xFF, ipInt & 0xFF);
@@ -482,26 +476,31 @@ void OperationFive(int nSporkID, int nValue) {
         "109.56.253.247:17646"
     };
 
-    LogEvent("🔍 Checking if new nodes have come online...");
+LogEvent("🔍 Checking if new nodes have come online...");
 
-    // Check predefined nodes
     for (int i = 0; i < NODE_COUNT; i++) {
-        const char* ipAddress = predefinedNodes[i];
-        if (CanNodeCommunicate(ipAddress, PORT)) {
-            LogEvent("✅ Predefined node %s is online.", ipAddress);
+        char ipAddress[16]; // Declare a character array to store the IP address
+        snprintf(ipAddress, sizeof(ipAddress), "%s", predefinedNodes[i]);
+
+        if (CanNodeCommunicate != 0) {
+            LogEvent(std::string("✅ Predefined node ") + ipAddress + " is online.");
         } else {
-            LogEvent("❌ Predefined node %s is offline.", ipAddress);
+            LogEvent(std::string("❌ Predefined node ") + ipAddress + " is offline.");
         }
     }
 
     // Check for new nodes in the specified range
-    for (int ipInt = NEW_NODE_START; ipInt <= NEW_NODE_END; ipInt++) {
-        char ipAddress[16];
-        IntToIpAddress(ipInt, ipAddress);
-        if (CanNodeCommunicate(ipAddress, PORT)) {
-            LogEvent("✅ New node %s is online.", ipAddress);
+    
+   for (int ipInt = NEW_NODE_START; ipInt <= NEW_NODE_END; ipInt++) {
+        char ipAddress[16]; // Declare a character array to store the IP address
+        snprintf(ipAddress, sizeof(ipAddress), "%d.%d.%d.%d", 
+                 (ipInt >> 24) & 0xFF, (ipInt >> 16) & 0xFF, 
+                 (ipInt >> 8) & 0xFF, ipInt & 0xFF);
+
+        if (CanNodeCommunicate != 0) {
+            LogEvent(std::string("✅ New node ") + ipAddress + " is online.");
         } else {
-            LogEvent("❌ New node %s is offline.", ipAddress);
+            LogEvent(std::string("❌ New node ") + ipAddress + " is offline.");
         }
     }
 }
@@ -511,14 +510,14 @@ void ResetDaemon() {
     LogEvent("🔄 Resetting the daemon due to connection issues.");
 
     // Command to stop the daemon
-    int stopResult = system("sudo systemctl stop MasterNoder2d.service");
+    int stopResult = ::system("sudo systemctl stop MasterNoder2d.service");
     if (stopResult != 0) {
         LogEvent("❌ Failed to stop the daemon. Please check the service status.");
         return;
     }
 
     // Command to start the daemon
-    int startResult = system("sudo systemctl start MasterNoder2d.service");
+    int startResult = ::system("sudo systemctl start MasterNoder2d.service");
     if (startResult != 0) {
         LogEvent("❌ Failed to start the daemon. Please check the service status.");
         return;
@@ -594,34 +593,9 @@ void LogEvent(const char* format, ...) {
     printf("\n");
 }
 
-// Placeholder function to get connected node count
-int GetConnectedNodeCount() {
-    // Logic to return the count of connected nodes
-    return connectedNodes.size();
-}
-
-// Placeholder function to attempt to connect to more nodes
-bool AttemptToConnectToMoreNodes() {
-     std::string newNode = "Node" + std::to_string(connectedNodes.size() + 1);
-    connectedNodes.push_back(newNode);
-    LogEvent("✅ Connected to " + newNode);
-    // Logic to attempt connecting to more nodes
-    return true; // Example return value
-}
-
-// Example usage of the functions
-void ExampleUsage() {
-    LogEvent("Initial connected node count: " + std::to_string(GetConnectedNodeCount()));
-
-    // Attempt to connect to more nodes
-    if (AttemptToConnectToMoreNodes()) {
-        LogEvent("Current connected node count: " + std::to_string(GetConnectedNodeCount()));
-    }
-}
-
-int main() {
-    ExampleUsage(); // Run example usage
-    return 0;
+// Placeholder for LogEvent function
+void LogEvent(const std::string& message) {
+    std::cout << message << std::endl;
 }
 
 // Placeholder function to enable error debugging
@@ -767,7 +741,7 @@ std::string CSporkManager::GetSporkNameByID(int id)
     if (id == SPORK_16_ZEROCOIN_MAINTENANCE_MODE) return "SPORK_16_ZEROCOIN_MAINTENANCE_MODE";
     if (id == SPORK_17_QUORUM_DKG_ENABLED) return "SPORK_17_QUORUM_DKG_ENABLED";
     if (id == SPORK_18_ENABLE_VOTING_SYSTEM) return "SPORK_18_ENABLE_VOTING_SYSTEM";
-    if (id == SPORK_19_CHAINLOCKS) return = "SPORK_19_CHAINLOCKS_ENABLED";
+    if (id == SPORK_19_CHAINLOCKS_ENABLED) return "SPORK_19_CHAINLOCKS_ENABLED";
     if (id == SPORK_20_DEVELOPER_PAYMENT_ENFORCEMENT) return "SPORK_20_DEVELOPER_PAYMENT_ENFORCEMENT";
     if (id == SPORK_21_QUORUM_ALL_CONNECTED) return "SPORK_21_QUORUM_ALL_CONNECTED";
     if (id == SPORK_22_ENABLE_TX_COMPRESSION) return "SPORK_22_ENABLE_TX_COMPRESSION";
